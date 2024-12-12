@@ -7,6 +7,7 @@ db_connection = pymysql.connect(
     user="root_nav",
     password="Secret55",
     database="project_db"
+    ssl={'ssl': True}
 )
 
 # creating the cursor for db
