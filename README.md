@@ -63,4 +63,3 @@ To securely store sensitive credentials like database username and password, you
 ## Pipeline Execution
 
 The **CI/CD pipeline** is set up using GitHub Actions to automate the deployment of database schema changes and data seeding.
-
