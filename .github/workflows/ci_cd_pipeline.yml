@@ -1,0 +1,65 @@
+name: CI/CD Pipeline for Azure MySQL by Group4
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up MySQL
+        run: |
+          sudo apt-get install mysql-client
+
+  deploy-schema:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy Initial Schema
+        run: |
+          mysql -h ${{ secrets.DB_HOST }} -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} project_db < ./sql/1_create_climate_data_table.sql
+
+      - name: Add Humidity Column
+        run: |
+          mysql -h ${{ secrets.DB_HOST }} -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} project_db < ./sql/2_add_humidity_column.sql
+
+  seed-data:
+    runs-on: ubuntu-latest
+    needs: deploy-schema
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Seed Data
+        run: |
+          mysql -h ${{ secrets.DB_HOST }} -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} project_db < ./sql/3_seed_climate_data.sql
+
+  run-concurrent-queries:
+    runs-on: ubuntu-latest
+    needs: seed-data
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Concurrent Queries
+        run: |
+          python3 ./scripts/multi_thread_queries.py
+
+  validate:
+    runs-on: ubuntu-latest
+    needs: run-concurrent-queries
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate Data
+        run: |
+          mysql -h ${{ secrets.DB_HOST }} -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} project_db < ./sql/4_validate_climate_data.sql
