@@ -6,7 +6,7 @@ db_connection = pymysql.connect(
     host="automated-mysql-server4.mysql.database.azure.com",
     user="root_nav",
     password="Secret55",
-    database="project_db"
+    database="project_db",
     ssl={'ssl': True}
 )
 
