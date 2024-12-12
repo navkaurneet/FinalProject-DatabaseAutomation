@@ -8,6 +8,7 @@ db_connection = mysql.connector.connect(
     password="Secret55",
     database="project_db"
 )
+
 # creating the cursor for db
 cursor = db_connection.cursor()
 
