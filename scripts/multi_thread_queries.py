@@ -1,8 +1,8 @@
-import mysql.connector
+import pymysql
 from concurrent.futures import ThreadPoolExecutor
 
 # Establish database connection
-db_connection = mysql.connector.connect(
+db_connection = pymysql.connector.connect(
     host="automated-mysql-server4.mysql.database.azure.com",
     user="root_nav",
     password="Secret55",
