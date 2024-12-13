@@ -25,6 +25,7 @@ The repository is structured as follows:
       └── /workflows
           └── ci_cd_pipeline.yml           # GitHub Actions pipeline configuration
 
+
 ---
 
 ## Tools and Technologies Required
