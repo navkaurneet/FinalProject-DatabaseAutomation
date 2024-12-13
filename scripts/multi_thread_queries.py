@@ -34,7 +34,7 @@ with ThreadPoolExecutor() as executor:
     executor.submit(execute_query, update_sql)
 
 # Bulk Insert
-print("\nInserting 50,000 records into ClimateData and measuring execution time...")
+print("\nInserting 50,0000 records into ClimateData and measuring execution time...")
 connection = pymysql.connect(
     host="automated-mysql-server4.mysql.database.azure.com",
     user="root_nav",
@@ -47,7 +47,7 @@ start_time = time.time()
 
 bulk_data = [
     (f"Location-{i}", "2024-01-03", i % 50 + 10.0, i % 20 + 5.0, i % 100 + 50.0)
-    for i in range(50000)
+    for i in range(500000)
 ]
 cursor.executemany(
     """
@@ -59,7 +59,7 @@ cursor.executemany(
 connection.commit()
 end_time = time.time()
 execution_time = end_time - start_time
-print(f"Time taken to insert 50,000 records: {execution_time:.2f} seconds")
+print(f"Time taken to insert 50,0000 records: {execution_time:.2f} seconds")
 
 cursor.close()
 connection.close()
